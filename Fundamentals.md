@@ -48,7 +48,7 @@ The activation function decides whether a neuron should be activated or not by c
 ### Hyper-Parameters
 
 1. Optimizer: Adam(), SGD(), RMSProp()
-2. Loss: Huber(), `cross_entropy`, `categorical_crossentropy`, `sparse_categorical_crossentropy`
+2. Loss: Huber(), `binary_cross_entropy`, `categorical_crossentropy`, `sparse_categorical_crossentropy`
 3. Metrics: [accuracy], [mae]
 
 
