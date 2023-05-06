@@ -33,9 +33,9 @@ Normalizing the image data is an important step when solving computer vision pro
 
 ### Models
 
-> Sequential: Defines a sequence of layers in the neural network.
-> Flatten: Takes the data and transforms it into 1-dimensional array.
-> Dense: Adds a layer of neurons.
+- Sequential: Defines a sequence of layers in the neural network.
+- Flatten: Takes the data and transforms it into 1-dimensional array.
+- Dense: Adds a layer of neurons.
 
 ### Activation Functions
 
