@@ -1,16 +1,16 @@
 # Natural Language Processing
 
-## Contents
+1. [Text Tokenization](#text-tokenization)
+    1. [Padding](#padding)
+    2. [Word Embedding](#word-embedding)
+    3. [Subword Tokenization](#subword-tokenization)
+2. [Common NLP Layers](#common-nlp-layers)
+    1. [Long Short-Term Memory](#long-short-term-memory)
+    2. [CNN For NLP](#cnn-for-nlp)
+    3. [Layer Comparison](#layer-comparison)
+3. [Text Generation](#text-generation)
 
-1. Tokenizer
-2. Padding
-3. Word Embedding
-4. Long Short-Term Memory
-5. CNN For NLP 
-6. Layer Comparison
-7. Text Generation
-
-### Tokenizer
+## Text Tokenization
 
 Tokenizer is used to extract vocabulary of words from corpus and represent the texts into numerical representations which can be used to train neural network.
 
@@ -33,7 +33,7 @@ word_index = tokenizer.word_index
 sequences = tokenizer.texts_to_sequences(training_sentences)
 ```
 
-### Padding
+#### Padding
 
 Neural networks generally need all input data to be in uniform dimensions. Our sentences and sequences are of different lengths, so we need to make them uniform. For this, we pad the sequences into a uniform length using `pad_sequences` method. By default, it will pad according to the length of the longest sequence. We can override this with the `maxlen` argument to define a specific length.
 
@@ -50,7 +50,7 @@ padded = pad_sequences(sequences,
 
 The sequences can be reversed using `sequences_to_text()` for inspection.
 
-### Word Embedding
+#### Word Embedding
 
 The Embedding layer represents each word in the vocabulary with vectors. These vectors have trainable weights so as our neural network learns, the vectors for the words that are most likely to appear together will orient in the same direction.
 
@@ -63,13 +63,15 @@ We can use `GlobalAveragePooling1D` layer intead of `Flatten` after the `Embeddi
 
 Word embeddings can be visualized and can be plotted using the [Tensorflow Embedding Projector](https://projector.tensorflow.org/).
 
-### Subword Tokenization
+#### Subword Tokenization
 
 In word tokenization, out of vocab words are a big issue as we need a huge index to cover all words in training data. This increases the `vocab_size`, slows down the training and bloats the model. Even then there may be words in validation or test set that were not present in training data and result in out of vocab index.
 
 As an alternative, can use a pre-tokenized dataset that uses subword text encoding. Subword text encoding gets around the out of vocab problem by using parts of the word to compose whole words. This makes it more flexible when it encounters uncommon words.
 
-### Long Short-Term Memory
+## Common NLP Layers
+
+#### Long Short-Term Memory
 
 LSTM is useful where the order of tokens is important. LSTM computes the state of a current timestep and passes it on to the next timestep where this state is also updated. The process repeats until the final timestep where the output computation is affected by all previous states. 
 
@@ -82,7 +84,7 @@ tensorflow.keras.layers.Bidirectional(tensorflow.keras.layers.LSTM(lstm_dim))
 
 We can chain multiple layer of LSTM models by simply appending another LSTM layer in the model and enabling the `return_sequences` flag to `True` in initial layers. 
 
-### CNN For NLP 
+#### CNN For NLP 
 
 Convolutional neural networks can be used to solve NLP problems. For temporal data such as text sequences, we can use the `Conv1D` model so the convolution will happen over a single dimension. We can also append a pooling layer to reduce the output of the convolution layer. 
 
@@ -92,14 +94,15 @@ Convolutional neural networks can be used to solve NLP problems. For temporal da
 ])
 ```
 
-### Layer Comparison
+#### Layer Comparison
 
 1. `Flatten`: Flattens the input into single dimension output. Its main advantage is that it is very fast to train.
 2. `LSTM`: This is slower to train but useful in applications where the order of the tokens is important.
 3. `GRU`: A simpler version of LSTM. It can be used in applications where the sequence is important but we want faster results and can sacrifice some accuracy.
 4. `Convolution`: Trains faster tha `LSTM` and `GRU`
+5. `Bidirectional`: allows the inner layer to convey information in both directions - forward and backward.
 
-### Generating Text 
+## Text Generation
 
 We can use neural networks to generate text by training them to predict the next word based on previous words. Here the training text data acts both as input and label, the current word is treated as input and the next one as label, so on and so on. This can be understood using the following example:
 

@@ -1,22 +1,11 @@
 # Time Series Analysis and Forcasting
 
-## Contents
+1. [Time Series](#time-series)
+2. [Forecasting](#forecasting)
+3. [Differencing](#differencing)
+4. [Data Preprocessing For Time Series](#data-preprocessing-for-time-series)
 
-1. Time Series
-  1.1 Trend
-  1.2 Seasonality
-  1.3 Noise
-  1.4 Autocorrelation
-5. Non-Stationary Time Series
-6. Naive Forecast 
-7. Metrics
-8. Moving Average
-9. Differencing
-10. Smoothing
-11. Data Preprocessing For Time Series
-12. Training The Model
-
-### Time Series
+## Time Series
 
 Time series are data that have a time based variation of input values. There is only one value corresponding to a time - usually a day. The time series generally show variations which can be grouped into the following types:
 
@@ -28,26 +17,31 @@ Time series are data that have a time based variation of input values. There is 
 
 - **Autocorrelation** means that measurements at a given time step is a function of previous time steps. Another autocorrelation we might encouter is one where it decays predictably after random spikes.
 
-#### Non-Stationary Time Series
+Sometimes, a timeseries may abruptly break from the pattern and start following a different or random pattern. This can happen when some big event distrupts the underlying factors for the timeseries. Such timeseries are called **Non-Stationary Time Series**
 
-It is possible for the time series to break an expected pattern. Big events can alter the trend or seasonal behavior of the data.
+## Forecasting
 
-### Naive Forecast
+There are different types of forecasting methods that can be used to predict time series. In each forecasting, we estimate some metrics like Mean Square Error (mse) or Mean Absolute Error (mae). 
 
-As a baseline, we can do a naive forecast where we assume that the next value will be the same as the previous time step. 
+- Mean Square Error: `tensorflow.keras.metrics.mean_squared_error(actual, forecast)`
+- Mean Absolute Error: `tensorflow.keras.metrics.mean_absolute_error(actual, forecaset)`
 
-### Metrics
+Mean square error heavily penalizes large errors while mean absolute error is more lenient.
 
-1. Mean Square Error: `tensorflow.keras.metrics.mean_squared_error(actual, forecast)`
-2. Mean Absolute Error: `tensorflow.keras.metrics.mean_absolute_error(actual, forecaset)`
 
-### Moving Average Smoothing
+##### Naive Forecast
 
-Smoothing is usually done to help us better see patterns and trends in time series. It generally smooths out the irregular roughness (noise) to see clearer signal. One of the commonly used method for smoothing is moving average.
+The simplest forecast is where we assume that the next value will be same as previous value. We use it as a baseline to measure the performance against.
+
+##### Moving Average Forecast
 
 Moving average takes an average of values over a window. For example, 7 day moving average takes a 7 day window to average out input data. The window is generally trailing, although centered or even forward window can be used as needed.
 
-### Differencing
+##### Smoothing
+
+Smoothing is usually done to help us better see patterns and trends in time series. It generally smooths out the irregular roughness (noise) to see clearer signal. One of the commonly used method for smoothing is moving average.
+
+## Differencing
 
 Differencing is a method of transforming a time series data. It can be used to remove the series dependence on time, so-called temporal dependence. We subtract the identified and fixed variations like trends and seasonality from the data which makes the input data much simpler and better for prediction.
 
@@ -55,7 +49,9 @@ Differencing is performed by substracting the previous observation from the curr
 
 `difference(t) = observation(t) - observation(t-N)`
 
-### Data Preprocessing For Time Series
+After taking the difference what ideally remains is noise.
+
+## Data Preprocessing For Time Series
 
 1. Windowing
 
