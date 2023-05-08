@@ -12,15 +12,18 @@
 
 The Callbacks API is used to take actions during training. For this, we create a class which inherits the `tf.keras.callbacks.Callback` and implement one or more of its methods. This can be used to, for example, stop training when a specified metric is met.
 
+We can also use one of the inbuilt classes like `ModelCheckpoint`, `LearningRateScheduler`, `TerminateOnNaN`, `EarlyStopping` etc. We need to pass the object of this class as a parameter when calling the fit method on model. 
+
 ```python
 class myCallback(tf.keras.callbacks.Callback):
     def on_epoch_end(self, epoch, logs={}):
         if (logs.get('loss') < 0.4):
             self.model.stop_training = True
-```
-We can also use one of the inbuilt classes like `ModelCheckpoint`, `LearningRateScheduler`, `TerminateOnNaN`, `EarlyStopping` etc. We need to pass the object of this class as a parameter when calling the fit method on model. 
-```python
-model.fit(train, test, epochs, callbacks=[callbacks])
+
+callback1 = myCallback()
+callback2 = LearningRateScheduler(lambda epoch: 1e-8 * 10**(epoch / 20))
+
+model.fit(train, test, epochs, callbacks=[callback1, callback2])
 ```
 
 ### Datasets
@@ -47,3 +50,14 @@ The activation function decides whether a neuron should be activated or not by c
 2. Loss: Huber(), `binary_cross_entropy`, `categorical_crossentropy`, `sparse_categorical_crossentropy`
 3. Metrics: [accuracy], [mae]
 
+### Training
+We train the model using the fit method.
+
+```python
+num_epochs = 30
+
+# Train the model
+history = model.fit(training_data, training_labels, epochs=num_epochs, validation_data=(testing_data, testing_labels), verbose=2)
+```
+
+We can set the `verbose` parameter of `model.fit()` to 2 to indicate that we want to print just the results per epoch. Setting it to 1(default) displays a progress bar per epoch, while 0 silences all displays. In production `verbose` 2 is recommended.
